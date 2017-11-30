@@ -35,8 +35,10 @@ class MRKmeansStep(MRJob):
 
         The result should be always a value in the range [0,1]
         """
-        
-        return 1
+        intersection = sum([prob for (word,prob) in prot if (word in doc)])
+        sq_prot = sum([prob*prob for (_,prob) in prot])
+        union = sq_prot + len(doc) -  intersection
+        return intersection/union
 
     def configure_options(self):
         """
