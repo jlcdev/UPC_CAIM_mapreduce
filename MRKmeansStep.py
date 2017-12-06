@@ -89,7 +89,7 @@ class MRKmeansStep(MRJob):
                 prot_i = i
                 distance_min = distance
 
-        yield prot_i, line
+        yield "CLASS"+prot_i, line
 
     def aggregate_prototype(self, key, values):
         """
