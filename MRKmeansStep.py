@@ -109,16 +109,17 @@ class MRKmeansStep(MRJob):
         :return:
         """
 
-        n_docs = len(values)
+        n_docs = 0
         prot = []
         for line in values:
+            n_docs += 1
             _, words = line.split(':')
             lwords = words.split()
             i=0
             j=0
             while i<len(prot) and j<len(lwords):
                 if prot[i][0]==lwords[j]:
-                    prot[i][1]+=1
+                    prot[i]=(prot[i][0],prot[i][1]+1)
                     j+=1
                 elif prot[i][0]>lwords[j]:
                     prot.insert(i,(lwords[j],1))

@@ -26,6 +26,23 @@ import time
 
 __author__ = 'bejar'
 
+def storePrototypesFile(prototype_dic, iteration):
+    f = open('prototypes%d.txt' % iteration, 'w')
+    for key, value in prototype_dic.items():
+        docvec = ''
+        for (word, freq) in value:
+            docvec += (word+'+'+freq)
+        f.write(key + ':' + docvec.encode('ascii','replace') + '\n')
+    f.flush()
+    f.close()
+
+def compareIterations(actual):
+    ant = actual -1
+    file1 = open('prototypes%d.txt' % ant, 'r')
+    file2 = open('prototypes%d.txt' % actual, 'r')
+    return false if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else true
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prot', default='prototypes.txt', help='Initial prototpes file')
@@ -78,18 +95,3 @@ if __name__ == '__main__':
             break
 
     # Now the last prototype file should have the results
-def storePrototypesFile(self, prototype_dic, iteration):
-    f = open('prototypes%d.txt' % iteration, 'w')
-    for key, value in prototype_dic.items():
-        docvec = ''
-        for (word, freq) in value:
-            docvec += (word+'+'+freq)
-        f.write(key + ':' + docvec.encode('ascii','replace') + '\n')
-    f.flush()
-    f.close()
-
-def compareIterations(self, actual):
-    ant = actual -1
-    file1 = open('prototypes%d.txt' % ant, 'r')
-    file2 = open('prototypes%d.txt' % actual, 'r')
-    return false if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else true
