@@ -83,7 +83,7 @@ class MRKmeansStep(MRJob):
         #
         prot_i = 0
         distance_min = 2
-        for i, prot in enumerate(self.prototypes):
+        for i, prot in enumerate(self.prototypes.items()):
             distance = self.jaccard(prot, lwords)
             if distance < distance_min:
                 prot_i = i
