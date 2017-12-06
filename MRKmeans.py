@@ -41,7 +41,7 @@ def compareIterations(actual):
     ant = actual -1
     file1 = open('prototypes%d.txt' % ant, 'r')
     file2 = open('prototypes%d.txt' % actual, 'r')
-    return false if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else true
+    return False if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else True
 
 
 if __name__ == '__main__':
@@ -86,7 +86,7 @@ if __name__ == '__main__':
             # If your scripts returns the new assignments you could write them in a file here
 
             # You should store the new prototypes here for the next iteration
-            storePrototypesFile(new_proto, i)
+            storePrototypesFile(new_proto, i+1)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
             if i > 0:
                 nomove = compareIterations(i)
