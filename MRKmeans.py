@@ -70,7 +70,7 @@ if __name__ == '__main__':
             # You should store the new prototypes here for the next iteration
             storePrototypesFile(new_proto, i)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
-
+            nomove = compareIterations(i)
         print("Time= %f seconds" % (time.time() - tinit))
 
         if nomove:  # If there is no changes in two consecutive iteration we can stop
@@ -87,3 +87,9 @@ def storePrototypesFile(self, prototype_dic, iteration):
         f.write(key + ':' + docvec.encode('ascii','replace') + '\n')
     f.flush()
     f.close()
+
+def compareIterations(self, actual):
+    ant = actual -1
+    file1 = open('prototypes%d.txt' % ant, 'r')
+    file2 = open('prototypes%d.txt' % actual, 'r')
+    return false if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else true
