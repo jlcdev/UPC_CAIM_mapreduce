@@ -109,7 +109,27 @@ class MRKmeansStep(MRJob):
         :return:
         """
 
-        yield None, None
+        n_docs = len(values)
+        prot = []
+        for line in values:
+            _, words = line.split(':')
+            lwords = words.split()
+            i=0
+            j=0
+            while i<len(prot) and j<len(lwords):
+                if prot[i][0]<lwords[j]:
+                elif prot[i][0]==lwords[j]:
+                    prot[i][1]+=1
+                    j+=1
+                else:
+                    prot.insert(i,(lwords[j],1))
+                    j+=1
+                i+=1
+            for k in range(j,len(lwords)):
+                prot.append((lwords[k],1))
+        prot = [(w,p/n_docs) for (w,p) in prot]
+
+        yield key, prot
 
     def steps(self):
         return [MRStep(mapper_init=self.load_data, mapper=self.assign_prototype,
