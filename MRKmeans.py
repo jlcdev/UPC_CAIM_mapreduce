@@ -31,8 +31,9 @@ def storePrototypesFile(prototype_dic, iteration):
     for key, value in prototype_dic.items():
         docvec = ''
         for (word, freq) in value:
-            docvec += (word+'+'+freq)
-        f.write(key + ':' + docvec.encode('ascii','replace') + '\n')
+            docvec += (word+'+'+str(freq)+' ')
+        str_dovec=str(docvec.encode('ascii','replace'))
+        f.write(key + ':' + str_dovec[2:-1] + '\n')
     f.flush()
     f.close()
 
@@ -87,7 +88,8 @@ if __name__ == '__main__':
             # You should store the new prototypes here for the next iteration
             storePrototypesFile(new_proto, i)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
-            nomove = compareIterations(i)
+            if i > 0:
+                nomove = compareIterations(i)
         print("Time= %f seconds" % (time.time() - tinit))
 
         if nomove:  # If there is no changes in two consecutive iteration we can stop
