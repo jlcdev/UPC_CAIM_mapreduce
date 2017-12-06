@@ -81,15 +81,15 @@ class MRKmeansStep(MRJob):
         #
         # Compute map here
         #
-        prot_i = 0
+        prot_i = "CLASS0"
         distance_min = 2
-        for i, prot in enumerate(self.prototypes.items()):
+        for i,prot in self.prototypes.items():
             distance = self.jaccard(prot, lwords)
             if distance < distance_min:
                 prot_i = i
                 distance_min = distance
 
-        yield "CLASS"+prot_i, line
+        yield prot_i, line
 
     def aggregate_prototype(self, key, values):
         """
