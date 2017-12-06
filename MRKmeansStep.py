@@ -117,11 +117,10 @@ class MRKmeansStep(MRJob):
             i=0
             j=0
             while i<len(prot) and j<len(lwords):
-                if prot[i][0]<lwords[j]:
-                elif prot[i][0]==lwords[j]:
+                if prot[i][0]==lwords[j]:
                     prot[i][1]+=1
                     j+=1
-                else:
+                elif prot[i][0]>lwords[j]:
                     prot.insert(i,(lwords[j],1))
                     j+=1
                 i+=1
