@@ -9,11 +9,11 @@ MRKmeans
     Iterates the MRKmeansStep script
 
 :Authors: bejar
-    
 
-:Version: 
 
-:Created on: 17/07/2017 10:16 
+:Version:
+
+:Created on: 17/07/2017 10:16
 
 """
 from __future__ import print_function, division
@@ -64,11 +64,11 @@ if __name__ == '__main__':
             for line in runner1.stream_output():
                 key, value = mr_job1.parse_output_line(line)
                 # You should store things here probably in a datastructure
-
+                new_proto[key] = value
             # If your scripts returns the new assignments you could write them in a file here
 
             # You should store the new prototypes here for the next iteration
-
+            storePrototypesFile(new_proto, i)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
 
         print("Time= %f seconds" % (time.time() - tinit))
@@ -78,3 +78,12 @@ if __name__ == '__main__':
             break
 
     # Now the last prototype file should have the results
+def storePrototypesFile(self, prototype_dic, iteration):
+    f = open('prototypes%d.txt' % iteration, 'w')
+    for key, value in prototype_dic.items():
+        docvec = ''
+        for (word, freq) in value:
+            docvec += (word+'+'+freq)
+        f.write(key + ':' + docvec.encode('ascii','replace') + '\n')
+    f.flush()
+    f.close()
