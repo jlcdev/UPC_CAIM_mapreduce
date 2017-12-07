@@ -51,6 +51,19 @@ def compareIterations(act):
     f2 = open('assig%d.txt' % act, 'r')
     return filecmp.cmp('assig'+str(ant)+'.txt','assig'+str(act)+'.txt')
 
+def resumePrototype(prototype,i):
+    f = open('resume%d.txt' % i, 'w')
+    for key, (value, doc) in prototype.items():
+        value_sorted = sorted(value, key=lambda x: x[1])
+        docvec = ''
+        for (word, freq) in value_sorted[:5]:
+            docvec += (word+'+'+str(freq)+' ')
+        str_dovec=str(docvec.encode('ascii','replace'))
+        f.write(key + ':' + str_dovec[2:-1] + '\n')
+    f.flush()
+    f.close()
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--prot', default='prototypes.txt', help='Initial prototpes file')
@@ -107,6 +120,7 @@ if __name__ == '__main__':
 
             # You should store the new prototypes here for the next iteration
             storePrototypesFile(new_proto, i+1)
+            resumePrototype(new_proto,i)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
         print("Time= %f seconds" % (time.time() - tinit))
 
