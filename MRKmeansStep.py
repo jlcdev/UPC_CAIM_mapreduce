@@ -111,9 +111,11 @@ class MRKmeansStep(MRJob):
 
         n_docs = 0
         prot = []
+        docs = []
         for line in values:
             n_docs += 1
-            _, words = line.split(':')
+            doc_id, words = line.split(':')
+            docs.append(doc_id)
             lwords = words.split()
             i=0
             j=0
@@ -129,7 +131,7 @@ class MRKmeansStep(MRJob):
                 prot.append((lwords[k],1))
         prot = [(w,p/n_docs) for (w,p) in prot]
 
-        yield key, prot
+        yield key, (prot,docs)
 
     def steps(self):
         return [MRStep(mapper_init=self.load_data, mapper=self.assign_prototype,

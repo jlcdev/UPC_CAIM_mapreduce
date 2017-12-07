@@ -23,26 +23,33 @@ import shutil
 import argparse
 import os
 import time
+import filecmp
 
 __author__ = 'bejar'
 
 def storePrototypesFile(prototype_dic, iteration):
-    f = open('prototypes%d.txt' % iteration, 'w')
-    for key, value in prototype_dic.items():
+    fp = open('prototypes%d.txt' % iteration, 'w')
+    fa = open('assig%d.txt' % iteration, 'w')
+    for key, (value,docs) in prototype_dic.items():
         docvec = ''
+        docstxt = ''
+        for doc_id in docs:
+            docstxt += (doc_id+' ')
+        fa.write(key + ':' + docstxt + '\n')
         for (word, freq) in value:
             docvec += (word+'+'+str(freq)+' ')
         str_dovec=str(docvec.encode('ascii','replace'))
-        f.write(key + ':' + str_dovec[2:-1] + '\n')
-    f.flush()
-    f.close()
+        fp.write(key + ':' + str_dovec[2:-1] + '\n')
+    fp.flush()
+    fp.close()
+    fa.flush()
+    fa.close()
 
-def compareIterations(actual):
-    ant = actual -1
-    file1 = open('prototypes%d.txt' % ant, 'r')
-    file2 = open('prototypes%d.txt' % actual, 'r')
-    return False if len(set.intersection(set(file1.readlines()),set(file1.readlines()))) > 0 else True
-
+def compareIterations(act):
+    ant = act-1
+    f1 = open('assig%d.txt' % ant, 'r')
+    f2 = open('assig%d.txt' % act, 'r')
+    return filecmp.cmp('assig'+str(ant)+'.txt','assig'+str(act)+'.txt')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -84,12 +91,23 @@ if __name__ == '__main__':
                 # You should store things here probably in a datastructure
                 new_proto[key] = value
             # If your scripts returns the new assignments you could write them in a file here
+            for key, (value,docs) in new_proto.items():
+                new_assign[key] = docs
+            if bool(assign):
+                for key, (value,docs) in new_proto.items():
+                    for doc in docs:
+                        if not doc in assign[key]:
+                            break
+                    else:
+                        continue
+                    break
+                else:
+                    nomove=True
+            assign = new_assign.copy()
 
             # You should store the new prototypes here for the next iteration
             storePrototypesFile(new_proto, i+1)
             # If you have saved the assignments, you can check if they have changed from the previous iteration
-            if i > 0:
-                nomove = compareIterations(i)
         print("Time= %f seconds" % (time.time() - tinit))
 
         if nomove:  # If there is no changes in two consecutive iteration we can stop

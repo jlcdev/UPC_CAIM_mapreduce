@@ -1,0 +1,21 @@
+nw100:
+  2 it
+  Time= 3.540848 seconds
+
+nw150:
+  2 it
+  Time= 5.182368 seconds
+
+nw200:
+  2 it
+  Time= 9.394098 seconds
+
+min0.05 max0.15:
+  2 it
+  Time= 5.903186 seconds
+
+min0.05 max0.4:
+  2 it
+  Time= 9.469377 seconds
+
+
