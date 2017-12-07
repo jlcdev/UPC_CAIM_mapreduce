@@ -95,12 +95,8 @@ if __name__ == '__main__':
                 new_assign[key] = docs
             if bool(assign):
                 for key, (value,docs) in new_proto.items():
-                    for doc in docs:
-                        if not doc in assign[key]:
-                            break
-                    else:
-                        continue
-                    break
+                    if set(assign[key])!=set(docs):
+                        break
                 else:
                     nomove=True
             assign = new_assign.copy()
